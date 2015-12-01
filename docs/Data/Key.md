@@ -4,7 +4,7 @@
 
 ``` purescript
 data Platform
-  = Mac
+  = Apple
   | Other
 ```
 
@@ -21,40 +21,16 @@ Ord Key
 Show Key
 ```
 
-#### `meta`
+#### `ctrlCmd`
 
 ``` purescript
-meta :: Key
-```
-
-#### `alt`
-
-``` purescript
-alt :: Key
-```
-
-#### `shift`
-
-``` purescript
-shift :: Key
-```
-
-#### `character`
-
-``` purescript
-character :: Char -> Key
-```
-
-#### `enter`
-
-``` purescript
-enter :: Key
+ctrlCmd :: Key
 ```
 
 #### `fromKeyCode`
 
 ``` purescript
-fromKeyCode :: Platform -> Int -> Key
+fromKeyCode :: Platform -> KeyCode -> Key
 ```
 
 #### `print`

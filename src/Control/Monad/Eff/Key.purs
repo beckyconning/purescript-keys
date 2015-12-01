@@ -1,14 +1,15 @@
-module Control.Monad.Eff.Key (getPlatform, fromKeyCode, print, printCombination) where
+module Control.Monad.Eff.Key where --(getPlatform, fromKeyCode, print, printCombination) where
 
 import Control.Monad.Eff.Class (MonadEff)
 import Control.Monad.Eff (Eff())
 import Data.Foldable (Foldable)
-import Data.Key as Key
+import Data.KeyCode (KeyCode())
 import Prelude
 import DOM (DOM())
 import DOM.HTML.Types (Window())
 import DOM.HTML (window)
 import Data.String (take)
+import Data.Key as Key
 
 foreign import data Navigator :: *
 
@@ -22,14 +23,17 @@ getPlatformString = window >>= navigator >>= platform
 parsePlatform :: String -> Key.Platform
 parsePlatform = take 3 >>> parse
   where
-  parse "Mac" = Key.Mac
+  parse "Mac" = Key.Apple
+  parse "iPad" = Key.Apple
+  parse "iPhone" = Key.Apple
+  parse "iPod" = Key.Apple
   parse _ = Key.Other
 
 getPlatform :: forall eff. Eff (dom :: DOM | eff) Key.Platform
 getPlatform = parsePlatform <$> getPlatformString
 
-fromKeyCode :: forall eff. Int -> Eff (dom :: DOM | eff) Key.Key
-fromKeyCode i = flip Key.fromKeyCode i <$> getPlatform
+fromKeyCode :: forall eff. KeyCode -> Eff (dom :: DOM | eff) Key.Key
+fromKeyCode keyCode = flip Key.fromKeyCode keyCode <$> getPlatform
 
 print :: forall eff. Key.Key -> Eff (dom :: DOM | eff) String
 print key = flip Key.print key <$> getPlatform

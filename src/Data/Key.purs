@@ -14,80 +14,55 @@ limitations under the License.
 module Data.Key
   ( Key()
   , Platform(..)
-  , alt
-  , character
-  , enter
+  , ctrlCmd
   , fromKeyCode
-  , meta
   , print
   , printCombination
-  , shift
   ) where
 
 import Prelude
-import Data.Char (fromCharCode, toUpper)
-import Data.Array (singleton, nub, sort)
-import Data.String (fromChar, joinWith)
+import Data.Array (singleton, sort, nub)
+import Data.Char (fromCharCode)
 import Data.Foldable (Foldable, foldMap)
+import Data.KeyCode (KeyCode(..))
+import Data.String (fromChar, joinWith)
 
-data Platform = Mac | Other
+data Platform = Apple | Other
 
-data Key = Meta | Alt | Shift | Character Char | Enter
+data Key = CtrlCmd | Key KeyCode
 
-meta :: Key
-meta = Meta
+ctrlCmd :: Key
+ctrlCmd = CtrlCmd
 
-alt :: Key
-alt = Alt
+fromKeyCodeOther :: KeyCode -> Key
+fromKeyCodeOther Control = CtrlCmd
+fromKeyCodeOther keyCode = Key keyCode
 
-shift :: Key
-shift = Shift
+fromKeyCodeApple :: KeyCode -> Key
+fromKeyCodeApple OSKey = CtrlCmd
+fromKeyCodeApple ContextMenu = CtrlCmd
+fromKeyCodeApple keyCode = Key keyCode
 
-character :: Char -> Key
-character = Character <<< toUpper
-
-enter :: Key
-enter = Enter
-
-fromKeyCodeOther :: Int -> Key
-fromKeyCodeOther 13 = Enter
-fromKeyCodeOther 16 = Shift
-fromKeyCodeOther 17 = Meta -- Ctrl
-fromKeyCodeOther 18 = Alt
-fromKeyCodeOther i = Character $ fromCharCode i
-
-fromKeyCodeMac :: Int -> Key
-fromKeyCodeMac 13 = Enter
-fromKeyCodeMac 16 = Shift
-fromKeyCodeMac 91 = Meta -- Left cmd
-fromKeyCodeMac 93 = Meta -- Right cmd
-fromKeyCodeMac 18 = Alt
-fromKeyCodeMac i = Character $ fromCharCode i
-
-fromKeyCode :: Platform -> Int -> Key
-fromKeyCode Mac = fromKeyCodeMac
+fromKeyCode :: Platform -> KeyCode -> Key
+fromKeyCode Apple = fromKeyCodeApple
 fromKeyCode _ = fromKeyCodeOther
 
 printOther :: Key -> String
-printOther Meta = "Ctrl"
-printOther Alt = "Alt"
-printOther Shift = "Shift"
-printOther (Character c) = fromChar c
-printOther Enter = "Enter"
+printOther CtrlCmd = "Ctrl"
+printOther (Key keyCode) = show keyCode
 
-printMac :: Key -> String
-printMac Meta = fromChar $ fromCharCode 8984
-printMac Alt = fromChar $ fromCharCode 8997
-printMac Shift = fromChar $ fromCharCode 8679
-printMac (Character c) = fromChar c
-printMac Enter = "Enter"
+printApple :: Key -> String
+printApple CtrlCmd = fromChar $ fromCharCode 8984
+printApple (Key Alt) = fromChar $ fromCharCode 8997
+printApple (Key Shift) = fromChar $ fromCharCode 8679
+printApple (Key keyCode) = show keyCode
 
 print :: Platform -> Key -> String
-print Mac = printMac
+print Apple = printApple
 print _ = printOther
 
 separator :: Platform -> String
-separator Mac = ""
+separator Apple = ""
 separator _ = "+"
 
 toArray :: forall f a. (Foldable f) => f a -> Array a
@@ -97,32 +72,25 @@ printCombination :: forall f. (Foldable f) => Platform -> f Key -> String
 printCombination p = toArray >>> sort >>> nub >>> map (print p) >>> joinWith (separator p)
 
 instance eqKey :: Eq Key where
-  eq Meta Meta = true
-  eq Alt Alt = true
-  eq Shift Shift = true
-  eq (Character x) (Character y) = x == y
-  eq Enter Enter = true
+  eq CtrlCmd CtrlCmd = true
+  eq (Key x) (Key y) = x == y
   eq _ _ = false
 
 instance ordKey :: Ord Key where
-  compare Meta Meta = EQ
-  compare Meta _ = LT
-  compare _ Meta = GT
-  compare Alt Alt = EQ
-  compare Alt _ = EQ
-  compare _ Alt = GT
-  compare Shift Shift = EQ
-  compare Shift _ = LT
-  compare _ Shift = GT
-  compare (Character x) (Character y) = compare x y
-  compare (Character _) _ = LT
-  compare _ (Character _) = GT
-  compare Enter Enter = EQ
+  compare CtrlCmd CtrlCmd = EQ
+  compare CtrlCmd _ = LT
+  compare _ CtrlCmd = GT
+  compare (Key Alt) (Key Alt) = EQ
+  compare (Key Alt) _ = EQ
+  compare _ (Key Alt) = GT
+  compare (Key Shift) (Key Shift) = EQ
+  compare (Key Shift) _ = LT
+  compare _ (Key Shift) = GT
+  compare (Key x) (Key y) = compare x y
+  compare (Key _) _ = LT
+  compare _ (Key _) = GT
 
 instance showKey :: Show Key where
-  show Meta = "Meta"
-  show Alt = "Alt"
-  show Shift = "Shift"
-  show (Character l) = "Character (" ++ show l ++ ")"
-  show Enter = "Enter"
+  show CtrlCmd = "CtrlCmd"
+  show (Key keyCode) = "Key (" ++ show keyCode ++ ")"
 

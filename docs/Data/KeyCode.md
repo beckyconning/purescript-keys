@@ -1,0 +1,215 @@
+## Module Data.KeyCode
+
+#### `KeyCode`
+
+``` purescript
+data KeyCode
+  = Cancel
+  | Help
+  | BackSpace
+  | Tab
+  | Clear
+  | Enter
+  | EnterSpecial
+  | Shift
+  | Control
+  | Alt
+  | Pause
+  | CapsLock
+  | Kana
+  | Eisu
+  | Junja
+  | Final
+  | Hanja
+  | Escape
+  | Convert
+  | Nonconvert
+  | Accept
+  | Modechange
+  | Space
+  | PageUp
+  | PageDown
+  | End
+  | Home
+  | Left
+  | Up
+  | Right
+  | Down
+  | Select
+  | Print
+  | Execute
+  | PrintScreen
+  | Insert
+  | Delete
+  | Zero
+  | One
+  | Two
+  | Three
+  | Four
+  | Five
+  | Six
+  | Seven
+  | Eight
+  | Nine
+  | Colon
+  | Semicolon
+  | LessThan
+  | Equals
+  | GreaterThan
+  | QuestionMark
+  | At
+  | A
+  | B
+  | C
+  | D
+  | E
+  | F
+  | G
+  | H
+  | I
+  | J
+  | K
+  | L
+  | M
+  | N
+  | O
+  | P
+  | Q
+  | R
+  | S
+  | T
+  | U
+  | V
+  | W
+  | X
+  | Y
+  | Z
+  | OSKey
+  | ContextMenu
+  | Sleep
+  | NumPad0
+  | NumPad1
+  | NumPad2
+  | NumPad3
+  | NumPad4
+  | NumPad5
+  | NumPad6
+  | NumPad7
+  | NumPad8
+  | NumPad9
+  | Multiply
+  | Add
+  | Separator
+  | Subtract
+  | Decimal
+  | Divide
+  | F1
+  | F2
+  | F3
+  | F4
+  | F5
+  | F6
+  | F7
+  | F8
+  | F9
+  | F10
+  | F11
+  | F12
+  | F13
+  | F14
+  | F15
+  | F16
+  | F17
+  | F18
+  | F19
+  | F20
+  | F21
+  | F22
+  | F23
+  | F24
+  | NumLock
+  | ScrollLock
+  | WinOEMFJJisho
+  | WinOEMFJMasshou
+  | WinOEMFJTouroku
+  | WinOEMFJLoya
+  | WinOEMFJRoya
+  | Circumflex
+  | Exclamation
+  | DoubleQuote
+  | Hash
+  | Dollar
+  | Percent
+  | Ampersand
+  | Underscore
+  | OpenParen
+  | CloseParen
+  | Asterisk
+  | Plus
+  | Pipe
+  | HyphenMinus
+  | OpenCurlyBracket
+  | CloseCurlyBracket
+  | Tilde
+  | VolumeMute
+  | VolumeDown
+  | VolumeUp
+  | Semicolon
+  | Equals
+  | Comma
+  | Minus
+  | Period
+  | Slash
+  | BackQuote
+  | OpenBracket
+  | BackSlash
+  | CloseBracket
+  | Quote
+  | Meta
+  | AltGR
+  | WinICOHelp
+  | WinICO00
+  | WinICOClear
+  | WinOEMReset
+  | WinOEMJump
+  | WinOEMPA1
+  | WinOEMPA2
+  | WinOEMPA3
+  | WinOEMWSCtrl
+  | WinOEMCusel
+  | WinOEMAttn
+  | WinOEMFinish
+  | WinOEMCopy
+  | WinOEMAuto
+  | WinOEMENLW
+  | WinOEMBackTab
+  | Attn
+  | CrSel
+  | ExSel
+  | ErEOF
+  | Play
+  | Zoom
+  | PA1
+  | WinOEMClear
+```
+
+##### Instances
+``` purescript
+Show KeyCode
+Eq KeyCode
+Ord KeyCode
+```
+
+#### `toInt`
+
+``` purescript
+toInt :: KeyCode -> Int
+```
+
+#### `fromInt`
+
+``` purescript
+fromInt :: Int -> Maybe KeyCode
+```
+
+
